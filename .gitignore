@@ -1,0 +1,5 @@
+*.o
+mca2nbt
+zpipe.c
+myzpipe.c
+mca2nbt-*.tar.gz

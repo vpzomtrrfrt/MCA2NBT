@@ -3,10 +3,10 @@
 VERSION=1.00
 LDFLAGS=-lz
 
-HTTP_CLIENT=fetch
-HTTP_CLIENT_ARGS="-q"
-#HTTP_CLIENT=curl
-#HTTP_CLIENT_ARGS="-sO"
+#HTTP_CLIENT=fetch
+#HTTP_CLIENT_ARGS="-q"
+HTTP_CLIENT=curl
+HTTP_CLIENT_ARGS="-sO"
 
 mca2nbt: mca2nbt.o myzpipe.o
 	cc ${LDFLAGS} mca2nbt.o myzpipe.o -o mca2nbt

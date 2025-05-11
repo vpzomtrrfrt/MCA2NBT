@@ -4,8 +4,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include "minecraft.h"
+#include "zpipe.h"
 
 static const char VersionId[] = "@(#) mca2nbt v1.00 (2014-05-05) / Hubert Tournier";
 
@@ -42,11 +46,11 @@ int main(int argc, char *argv[])
 		{
 			*p_file_extension = 0;
 		}
-		if (mkdir(output_directory_name, "0755") != 0)
+		if (mkdir(output_directory_name, 0755) != 0)
 		{
 			if (errno != EEXIST)
 			{
-				fprintf(stderr, "FATAL ERROR: unable to create the destination directory \"%s\"\nReason: %s\n", argv[region], sys_errlist[errno]);
+				fprintf(stderr, "FATAL ERROR: unable to create the destination directory \"%s\"\nReason: %s\n", argv[region], strerror(errno));
 				exit(3);
 			}
 		}
@@ -104,7 +108,7 @@ int main(int argc, char *argv[])
 				/*************************/
 				if (fseek(input_file, offset * 4096, SEEK_SET) == -1)
 				{
-					fprintf(stderr, "FATAL ERROR: unable to seek to chunk #d in \"%s\"\n", i, argv[region]);
+					fprintf(stderr, "FATAL ERROR: unable to seek to chunk #%d in \"%s\"\n", i, argv[region]);
 					exit(8);
 				}
 				if (fread(&header_chunk, sizeof(ChunkDataHeader), 1, input_file) != 1)
